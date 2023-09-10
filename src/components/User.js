@@ -34,6 +34,31 @@ function User (props) {
             sortable: false,
             grow: 2.5,
         },
+        {
+            name: 'EDIT',
+            text: "Edit",
+            sortable: false,
+            right: true,
+            cell: (record) => {
+              return (
+                  <button>
+                    ✎
+                  </button>
+              );
+             },
+        },
+        {
+            name: 'DELETE',
+            text: "Delete",
+            sortable: false,
+            cell: (record) => {
+              return (
+                  <button>
+                    ✘
+                  </button>
+              );
+             },
+        },
     ];
     
     const customStyles = {
