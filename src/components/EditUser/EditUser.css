@@ -4,6 +4,7 @@
     margin-top: 20px;
     margin-bottom: 20px;
     padding: 10px;
+    width: 150px;
     border-radius: 8px;
 }
 .btn:hover{
@@ -23,18 +24,6 @@
     z-index: 1; /* Ensure the overlay is above other content */
   }
 
-  .search {
-    padding: 10px;
-    width: 350px;
-    border-radius: 8px;
-  }
-
-  .button-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
 h2 {
     padding-bottom: 20px;
   }

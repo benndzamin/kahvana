@@ -2,31 +2,45 @@ import { useState } from "react";
 import CreateUserForm from "./CreateUserForm";
 import "./CreateUser.css";
 
-function CreateUser() {
+function CreateUser(props) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
-    //open modal
-    const openModal = () => {
-        setIsModalOpen(true);
+  const saveUserDataHandler = (enteredUsersData) => {
+    const usersData = {
+      ...enteredUsersData,
     };
-    //close modal
-    const closeModal = () => {
-      setIsModalOpen(false);
+    props.onAddUser(usersData);
+    setIsModalOpen(false);
   };
 
-    return (
-        <div>
-          <h1>KAHVANA</h1>
-          <button className="btn" onClick={openModal}>
-            ADD USER
-          </button>
-    
-          {isModalOpen && (
-            <CreateUserForm onCancel={closeModal} />
-          )}
-        </div>
-      );
-};
+  //open modal
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+  //close modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  return (
+    <div>
+      <h1>KAHVANA</h1>
+      <div className="button-container">
+        <button className="btn" onClick={openModal}>
+          ADD USER
+        </button>
+
+        <input type="text" className="search" placeholder="Search by ID" />
+      </div>
+
+      {isModalOpen && (
+        <CreateUserForm
+          onCancel={closeModal}
+          onSaveUserData={saveUserDataHandler}
+        />
+      )}
+    </div>
+  );
+}
 
 export default CreateUser;

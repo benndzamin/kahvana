@@ -1,18 +1,18 @@
+import "./EditUser.css";
 import axios from "axios";
 import { useState } from "react";
-const short = require("short-uuid");
-const translator = short();
 
-function CreateUserForm(props) {
+function EditUserForm(props) {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   // State to manage form input values
   const [formData, setFormData] = useState({
-    id: translator.new(),
-    firstName: "",
-    lastName: "",
-    email: "",
-    phoneNumber: "",
+    // Initialize form data with the selected user's data
+    id: props.editData.id,
+    firstName: props.editData.firstName,
+    lastName: props.editData.lastName,
+    emailAddress: props.editData.emailAddress,
+    phoneNumber: props.editData.phoneNumber,
   });
 
   // Handle form input changes
@@ -22,29 +22,20 @@ function CreateUserForm(props) {
   };
 
   // Handle form submission
-  const handleSubmit = async (e) => {
+  const handleEdit = async (e) => {
     e.preventDefault();
+
     try {
       // Send a POST request to your backend API to create a new user
-      await axios.post("/api/users", formData);
-
-      // Clear the form after successful submission
-      setFormData({
-        id: "",
-        firstName: "",
-        lastName: "",
-        emailAddress: "",
-        phoneNumber: "",
-      });
+      await axios.put(`/api/users/${formData.id}`, formData);
 
       // Show the success message and after 1.3 seconds hide it
       setShowSuccessMessage(true);
       setTimeout(() => {
         setShowSuccessMessage(false);
-        //after showing success message trigger the state to rerender data
-        props.onSaveUserData(formData);
+        //Trigger state change to rerender data
+        props.onUpdateUser(formData);
       }, 1300);
-      
     } catch (error) {
       // Handle errors if the POST request fails
       console.error("Error creating user:", error);
@@ -54,17 +45,17 @@ function CreateUserForm(props) {
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleEdit}>
           <span className="close-button" onClick={props.onCancel}>
             &times;
           </span>
-          <h2>Add new user</h2>
+          <h2>Edit user</h2>
 
           {showSuccessMessage && (
             <div className="modal-overlay">
               <div className="modal">
                 <div className="alert alert-success">
-                  User successfully added
+                  User successfully edited
                 </div>
               </div>
             </div>
@@ -118,7 +109,7 @@ function CreateUserForm(props) {
               Cancel
             </button>
             <button className="btn" type="submit">
-              Add User
+              Edit User
             </button>
           </div>
         </form>
@@ -127,4 +118,4 @@ function CreateUserForm(props) {
   );
 }
 
-export default CreateUserForm;
+export default EditUserForm;
