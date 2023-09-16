@@ -4,3 +4,16 @@
     border: 1px solid whitesmoke;
     overflow: hidden;
 }
+
+.search {
+    padding: 10px;
+    width: 350px;
+    border-radius: 8px;
+  }
+
+  .button-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  

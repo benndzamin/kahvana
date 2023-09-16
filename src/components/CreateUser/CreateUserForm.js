@@ -4,14 +4,14 @@ const short = require("short-uuid");
 const translator = short();
 
 function CreateUserForm(props) {
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [message, setMessage] = useState("");
 
   // State to manage form input values
   const [formData, setFormData] = useState({
-    id: translator.new(),
+    id: translator.new().toLowerCase(),
     firstName: "",
     lastName: "",
-    email: "",
+    emailAddress: "",
     phoneNumber: "",
   });
 
@@ -37,17 +37,26 @@ function CreateUserForm(props) {
         phoneNumber: "",
       });
 
-      // Show the success message and after 1.3 seconds hide it
-      setShowSuccessMessage(true);
+      setMessage("User successfuly added");
       setTimeout(() => {
-        setShowSuccessMessage(false);
-        //after showing success message trigger the state to rerender data
+        setMessage(false);
         props.onSaveUserData(formData);
       }, 1300);
-      
     } catch (error) {
       // Handle errors if the POST request fails
-      console.error("Error creating user:", error);
+      if (error.response && error.response.status === 400) {
+        // Check for a 400 Bad Request response status (email already exists)
+        // Show the success message and after 1.3 seconds hide it
+        setMessage("User with this email already exists");
+        setTimeout(() => {
+          setMessage(false);
+        }, 1300);
+      } else {
+        setMessage("An error occurred while creating the user");
+        setTimeout(() => {
+          setMessage(false);
+        }, 1300);
+      }
     }
   };
 
@@ -60,12 +69,10 @@ function CreateUserForm(props) {
           </span>
           <h2>Add new user</h2>
 
-          {showSuccessMessage && (
+          {message && (
             <div className="modal-overlay">
               <div className="modal">
-                <div className="alert alert-success">
-                  User successfully added
-                </div>
+                <div className="alert alert-success">{message}</div>
               </div>
             </div>
           )}

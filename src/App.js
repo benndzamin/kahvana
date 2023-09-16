@@ -1,9 +1,12 @@
+// App.js
 import { useEffect, useState } from "react";
 import CreateUser from "./components/CreateUser/CreateUser.js";
 import Users from "./components/Users.js";
 import "./App.css";
+import SearchUser from "./components/SearchUser.js";
 
 function App() {
+  // Set state
   const [backendData, setBackendData] = useState([]);
 
   const addUserHandler = (user) => {
@@ -13,7 +16,7 @@ function App() {
 
   const deleteUserHandler = (userId) => {
     // Update the state by removing the deleted user
-    setBackendData((prevData) => prevData.filter(user => user.id !== userId));
+    setBackendData((prevData) => prevData.filter((user) => user.id !== userId));
   };
 
   const editUserHandler = (editedUserData) => {
@@ -39,8 +42,18 @@ function App() {
 
   return (
     <div>
-      <CreateUser onAddUser={addUserHandler} />
-      <Users items={backendData} onDeleteUser={deleteUserHandler} onEditUser={editUserHandler}/>
+      <h1>KAHVANA</h1>
+      <div className="button-container">
+        <CreateUser onAddUser={addUserHandler} />
+        <SearchUser
+          onUserFound={(results) => setBackendData(results)} // Passing the found user from SearchUser to state
+        />
+      </div>
+      <Users
+        items={backendData}
+        onDeleteUser={deleteUserHandler}
+        onEditUser={editUserHandler}
+      />
     </div>
   );
 }

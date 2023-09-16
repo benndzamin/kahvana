@@ -18,28 +18,6 @@ function Users(props) {
     setIsModalOpen(false);
   };
 
-  // Define a function to update the user data
-  const handleEditUser = (editedUserId, editedUserData) => {
-    // Find the user with the editedUserId in your user data list
-    const updatedItems = props.items.map((user) => {
-      if (user.id === editedUserId) {
-        // Update the user's data
-        return {
-          ...user,
-          firstName: editedUserData.firstName,
-          lastName: editedUserData.lastName,
-          emailAddress: editedUserData.emailAddress,
-          phoneNumber: editedUserData.phoneNumber,
-        };
-      }
-      setIsModalOpen(false);
-      return user;
-    });
-
-    // Update the user data in the state
-    props.onEditUser(updatedItems);
-  };
-
   const columns = [
     {
       name: "First name",
@@ -78,7 +56,7 @@ function Users(props) {
           try {
             // Send a DELETE request to delete the user by ID
             await axios.delete(`/api/users/${record.id}`);
-            //update state
+            // Call the onDeleteUser function to update the state
             props.onDeleteUser(record.id);
           } catch (error) {
             // Handle errors if the DELETE request fails

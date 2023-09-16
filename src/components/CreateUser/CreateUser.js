@@ -24,13 +24,10 @@ function CreateUser(props) {
 
   return (
     <div>
-      <h1>KAHVANA</h1>
       <div className="button-container">
         <button className="btn" onClick={openModal}>
           ADD USER
         </button>
-
-        <input type="text" className="search" placeholder="Search by ID" />
       </div>
 
       {isModalOpen && (
